@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="png" href="./image/small_logo.png">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
+    <title>Kiiring</title>
+    <style>
+        body {
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+            background-color: white; 
+        }     
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="container-center">
+            <!-- 상단바 -->
+            <div class="navbar">
+                <a href="index.html"><img src="./image/kiiring_logo.png" alt="Logo"></a>
+            </div>
+            <!-- 프로그레스 바 -->
+            <div class="progress-bar">
+                <div class="progress" id="progress"></div>
+            </div>
+            <!-- 테스트 단어 출력 -->
+            <div class="test-word" id="randomDataDisplay"></div>
+            <!-- 버튼 컨테이너 -->
+            <div class="button-container">
+                <button class="O-button" onclick="oWord()"><img src="./image/o_button.png" alt="O Image" width="50" height="50"></button>
+                <button class="X-button" onclick="xWord(index_Xwords)"><img src="./image/x_button.png" alt="X Image" width="50" height="50"></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/__/firebase/8.6.5/firebase-app.js"></script>
+    <script src="/__/firebase/8.6.5/firebase-storage.js"></script>
+    <script src="/__/firebase/8.6.5/firebase-database.js"></script>
+
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyC8k6w5feTn2oAazZZPT-u80yi2Jj9KQXQ",
+            authDomain: "kiiring.firebaseapp.com",
+            databaseURL: "https://kiiring-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "kiiring",
+            storageBucket: "kiiring.appspot.com",
+            messagingSenderId: "856818975267",
+            appId: "1:856818975267:web:115ccf3fe5e3f529286796"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        
+        const database = firebase.database();
+
+        let xWords = []; // X 단어 모음 (let은 재할당 가능한 변수)
+        let questionCount = 0; 
+        let index_Xwords;
+
+        // 랜덤 데이터 가져오기
+        function getRandomData() {
+            if (questionCount >= 10 && xWords.length != 0) {
+                swal({
+                    title: "Tip!",
+                    text: "테스트가 종료되었습니다. \n 모르는 단어들을 그림과 함께 공부하세요!",
+                    icon: "success",
+                }).then(() => {
+                    window.location.href = "test_result.html?" + xWords; 
+                });
+                return;
+            }
+            if (questionCount >= 10 && xWords.length == 0) {
+                swal({
+                    title: "Wow!",
+                    text: "테스트가 종료되었습니다. \n ",
+                    icon: "success",
+                }).then(() => {
+                    window.location.href = "index.html"; 
+                });
+                return;
+            }
+            // 데이터베이스에서 데이터 가져오기
+            database.ref('/').once('value', (snapshot) => {
+                const dataCount = snapshot.numChildren(); // 데이터 총 개수 확인
+                const randomIndex = Math.floor(Math.random() * dataCount); // 랜덤한 인덱스 생성
+                const dataArray = Object.values(snapshot.val()); // 스냅샷을 배열로 변환
+                const randomData = dataArray[randomIndex]; // 랜덤한 데이터 가져오기
+                
+                displayRandomData(randomData);
+                updateProgress();
+                console.log(randomData);
+                index_Xwords = randomIndex;
+            });
+            
+        }
+        
+        // HTML에 랜덤 데이터 표시하기
+        function displayRandomData(data) {
+            const randomDataDisplay = document.getElementById('randomDataDisplay');
+            randomDataDisplay.innerHTML = `<p>${data['영어단어']}</p>`;
+        }
+
+        // "O" 버튼 클릭 시 다음 테스트 단어 출력
+        function oWord() {
+            questionCount++;
+            getRandomData();
+        }
+
+        // "X" 버튼 클릭 시 테스트 단어를 xWord 배열에 저장한 후 다음 테스트 단어 출력
+        function xWord(data) {
+            xWords.push(data);
+            questionCount++;
+            getRandomData();
+            console
+        }
+
+         // 진행상황 업데이트 (progress bar)
+         function updateProgress() {
+            const progress = (questionCount / 10) * 100; 
+            document.getElementById('progress').style.width = `${progress}%`; // progress의 값을 백분율로 나타낸 것
+        }
+        
+        window.onload = () => {
+            getRandomData();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="png" href="./image/small_logo.png">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
+    <title>Kiiring</title>
+    <style>
+        body {
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+            background-color: white; 
+        }     
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="container-center">
+            <!-- 상단바 -->
+            <div class="navbar">
+                <a href="index.html"><img src="./image/kiiring_logo.png" alt="Logo"></a>
+                <div class="search-box">
+                    <input id="wordInput" onkeyup="enterkey()" type="text" placeholder="단어를 입력하세요.">
+                    <button type="button" onclick="submitForm()">
+                        <img src="./image/small_search.png" alt="검색"> 
+                    </button>
+                </div>
+            </div>
+            <!-- 이미지 -->
+            <div class="image-container"><img src="./image/small_logo.png"></div>
+            <!-- 영어 단어 -->
+            <div class="word-container">
+                <div class="result-word" id="resultDataDisplay"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/__/firebase/8.6.5/firebase-app.js"></script>
+    <script src="/__/firebase/8.6.5/firebase-storage.js"></script>
+    <script src="/__/firebase/8.6.5/firebase-database.js"></script>
+
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyC8k6w5feTn2oAazZZPT-u80yi2Jj9KQXQ",
+            authDomain: "kiiring.firebaseapp.com",
+            databaseURL: "https://kiiring-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "kiiring",
+            storageBucket: "kiiring.appspot.com",
+            messagingSenderId: "856818975267",
+            appId: "1:856818975267:web:115ccf3fe5e3f529286796"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+
+        const database = firebase.database();
+
+        // 데이터베이스에서 단어 검색
+        function find(word) {
+            database.ref('/').orderByChild('영어단어').equalTo(word).once('value', (snapshot) => {
+                if (snapshot.exists()) {
+                    const data = Object.values(snapshot.val()); // 스냅샷을 배열로 변환
+                    const resultData = data[0]; 
+                    console.log(resultData);
+                    displayResultData(resultData);
+                } else {
+                    // 데이터베이스에 해당 단어가 없는 경우 알림 표시
+                    swal({
+                        title: "Oops..",
+                        text: "해당 단어를 찾을 수 없습니다.",
+                        icon: "warning",
+                    }).then(() => {
+                        window.location.href = "search.html";
+                    });
+                }
+            });
+        }
+        
+        // HTML에 결과 데이터 표시하기
+        function displayResultData(data) {
+            const resultDataDisplay = document.getElementById('resultDataDisplay');
+            resultDataDisplay.innerHTML = `
+                <p>${data['영어단어']}</p>
+                <p>${data['단어 뜻']}</p>
+                <p>${data['영어 문장']}</p>
+                <p>${data['한국어 해석']}</p>`;
+        }
+
+        function submitForm() {
+            var word = document.getElementById("wordInput").value;
+            window.location.href = "search_result.html?" + word;
+        }
+
+        function enterkey() {
+            if (event.keyCode === 13) {
+                // submitForm(); 함수 호출이 제대로 안되는 듯..ㅠㅠ
+                var word = document.getElementById("wordInput").value;
+                window.location.href = "search_result.html?" + word;
+            }
+        }
+
+        window.onload = function() {
+            const temp = location.href.split("?");
+            const word = temp[1];
+            console.log(word);
+            find(word);
+        };
+    </script>
+</body>
+</html>

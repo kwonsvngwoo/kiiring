@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="png" href="./image/small_logo.png">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
+    <title>Kiiring</title>
+    <style>
+        body {
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+            background-color: white; 
+        }     
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="container-center">
+            <!-- 상단바 -->
+            <div class="navbar">
+                <a href="index.html"><img src="./image/kiiring_logo.png" alt="Logo"></a>
+            </div>
+            <div class = "xwords_Display" id="xWordsDisplay"></div> 
+        </div>
+    </div>
+
+    <script src="/__/firebase/8.6.5/firebase-app.js"></script>
+    <script src="/__/firebase/8.6.5/firebase-storage.js"></script>
+    <script src="/__/firebase/8.6.5/firebase-database.js"></script>
+
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyC8k6w5feTn2oAazZZPT-u80yi2Jj9KQXQ",
+            authDomain: "kiiring.firebaseapp.com",
+            databaseURL: "https://kiiring-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "kiiring",
+            storageBucket: "kiiring.appspot.com",
+            messagingSenderId: "856818975267",
+            appId: "1:856818975267:web:115ccf3fe5e3f529286796"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        
+        function displayxWordsData(data) {
+            const DataDisplay = document.getElementById('xWordsDisplay');
+
+            if (Array.isArray(data)) {
+                // 배열이라면 forEach로 각 요소를 출력
+                data.forEach(item => {
+                    DataDisplay.innerHTML += `<p>${item}</p>`;
+                });
+            } else {
+                // 배열이 아니라면 단일 데이터로 처리
+                DataDisplay.innerHTML += `<p>${data}</p>`;
+            }
+        }
+
+        window.onload = function() {
+            const temp = location.href.split("?");
+            const xWords = temp[1];
+            displayxWordsData(xWords)
+        };
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "projects": {
+    "default": "kiiring",
+    "kiiringdata": "fir-2696e"
+  },
+  "targets": {},
+  "etags": {},
+  "dataconnectEmulatorConfig": {}
+}

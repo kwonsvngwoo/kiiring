@@ -1,0 +1,223 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.color-primary {
+    color: #9ab0f6
+}
+
+.container {
+    text-align: center; /* 텍스트 가운데 정렬 */
+}
+
+.container-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 수직 가운데 정렬 */
+    justify-content: center; /* 수평 가운데 정렬 */
+}
+
+
+
+/* index : 메인페이지 */
+.main-button {
+    display: inline-block;
+    margin: 20px;
+    padding: 5px 40px;
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #000;
+    background-color: #fff;
+    border: 2px solid #000;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+
+
+/* 서브페이지 상단바 */
+.navbar {
+    width: 100%;
+    height: 60px;
+    background-color: #9ab0f6;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* 상단바의 로고와 검색창 사이 간격 조정 */
+}
+
+.navbar > a > img {
+    margin-left: 30px;
+    margin-top: 10px;
+    height: 40px;
+    width: auto;
+}
+
+.navbar > .search-box {
+    height: 38px;
+    width: 200px;
+    border: 2px solid #000000;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    margin-right: 30px;
+}
+
+.navbar > .search-box > input {
+    width: 100%;
+    height: 34px;
+    border: none;
+    outline: none;
+    padding: 12px 30px 12px 10px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.navbar > .search-box > button {
+    width: 34px;
+    height: 34px;
+    border: none;
+    cursor: pointer;
+    background-color: #fff;
+    padding: 0;
+    right: 0px;
+    position: absolute;
+}
+
+.navbar > .search-box > button > img {
+    width: 30px;
+    height: 30px;
+    vertical-align: top;
+    pointer-events: none; /* 이미지가 버튼 위에 있어도 버튼의 클릭 가능 영역이 이미지에 가려지지 않고 사용자의 클릭을 받아들임 */
+}
+
+
+
+/* test : 테스트 페이지 */
+.progress-bar {
+    width: 100%;
+    height: 5px;
+    background-color: #ddd;
+    margin-top: 10px; /* 프로그레스 바와 상단바 사이 간격 조절 */
+    margin-bottom: 130px; /* 프로그레스 바와 이미지 사이 간격 조절 */
+}
+
+.progress-bar > .progress {
+    width: 50%; /* 프로그레스 바의 초기 너비 */
+    height: 100%;
+    background-color: #9ab0f6; /* 프로그레스 바 색상 */
+}
+
+.test-word {
+    font-size: 120px; 
+    font-weight: bold; 
+}
+
+.button-container {
+    width: 100vw; /* 버튼 컨테이너의 너비 설정 */
+    margin-top: 130px; /* 버튼 컨테이너와 이미지 사이 간격 조절 */
+    border-top: 3px solid #9ab0f6; /* 구역을 나누는 선 */
+    padding-top: 30px; /* 구역과 이미지 사이 간격 조절 */
+    border-bottom: 3px solid #9ab0f6; /* 구역을 나누는 선 */
+    padding-bottom: 30px; /* 구역과 이미지 사이 간격 조절 */
+}
+
+.button-container > .O-button {
+    width: 100px; /* 버튼의 너비 조절 */
+    height: 100px; /* 버튼의 높이 조절 */
+    border: 3px solid #0e0f37; /* 테두리 추가 */
+    border-radius: 25px; /* 원 모양 버튼으로 만들기 */
+    background-color: white; /* 배경색 변경 */
+    cursor: pointer;
+    margin-right: 70px;
+}
+
+.button-container > .X-button {
+    width: 100px; /* 버튼의 너비 조절 */
+    height: 100px; /* 버튼의 높이 조절 */
+    border: 3px solid #0e0f37; /* 테두리 추가 */
+    border-radius: 25px; /* 원 모양 버튼으로 만들기 */
+    background-color: white; /* 배경색 변경 */
+    cursor: pointer;
+    margin-left: 70px;
+}
+
+
+
+/* search : 검색페이지 */
+.search {
+    height: 40px;
+    width: 500px;
+    border: 2px solid #000000;
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+}
+
+.search > input {
+    width: 100%;
+    height: 36px;
+    border: none;
+    outline: none;
+    padding: 10px 12px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.search > button {
+    width: 36px;
+    height: 36px;
+    border: none;
+    cursor: pointer;
+    background-color: #fff;
+    padding: 0;
+    right: 0px;
+    position: absolute;
+}
+
+.search > button > img {
+    width: 30px;
+    height: 30px;
+    vertical-align: top;
+    pointer-events: none; /* 이미지가 버튼 위에 있어도 버튼의 클릭 가능 영역이 이미지에 가려지지 않고 사용자의 클릭을 받아들임 */
+}
+
+
+
+/* search_result : 검색결과 페이지 */
+.image-container {
+    margin-top: 20px;
+    width: 500px; /* 상자의 너비 */
+    height: 250px; /* 상자의 높이 */
+    border: 3px solid black; /* 테두리 스타일 */
+    display: flex; /* 내부 요소 정렬을 위해 사용 */
+    justify-content: center; /* 가로 방향 가운데 정렬 */
+    align-items: center; /* 세로 방향 가운데 정렬 */
+}
+
+.image-container > img {
+    max-width: 100%; /* 이미지가 상자의 너비를 초과하지 않도록 설정 */
+    max-height: 100%; /* 이미지가 상자의 높이를 초과하지 않도록 설정 */
+}
+
+.word-container {
+    width: 100vw;
+    margin-top: 20px; /* 버튼 컨테이너와 이미지 사이 간격 조절 */
+    border-top: 3px solid #9ab0f6; /* 구역을 나누는 선 */
+    padding-top: 30px; /* 구역과 이미지 사이 간격 조절 */
+    border-bottom: 3px solid #9ab0f6; /* 구역을 나누는 선 */
+    padding-bottom: 30px; /* 구역과 이미지 사이 간격 조절 */
+    margin-bottom: 20px;
+}
+
+.word-container > .result-word {
+    font-size: 30px; 
+    font-weight: bold; 
+}
+
+.xwords_Display {
+    font-size: 50px;
+    font-weight: bold;
+}

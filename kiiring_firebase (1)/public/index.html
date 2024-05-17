@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="png" href="./image/small_logo.png">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script> 
+    <title>Kiiring</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+            background: radial-gradient(ellipse, #9ab0f6, #ffffff );
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 로고 -->
+        <div>
+            <a href="#"><img src="./image/logo.png" alt="로고" width="440px" height="280px"></a>
+        </div>
+        <!-- 버튼 -->
+        <div>
+            <a href="#" class="main-button" onclick="showAlert()">테스트<br>시작하기</a>
+            <a href="search.html" class="main-button">단어<br>검색하기</a>
+        </div>
+    </div>
+
+    <script src="/__/firebase/8.6.5/firebase-app.js"></script>
+    <script src="/__/firebase/8.6.5/firebase-storage.js"></script>
+    <script src="/__/firebase/8.6.5/firebase-database.js"></script>
+
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyC8k6w5feTn2oAazZZPT-u80yi2Jj9KQXQ",
+            authDomain: "kiiring.firebaseapp.com",
+            databaseURL: "https://kiiring-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "kiiring",
+            storageBucket: "kiiring.appspot.com",
+            messagingSenderId: "856818975267",
+            appId: "1:856818975267:web:115ccf3fe5e3f529286796"
+        };
+
+        firebase.initializeApp(firebaseConfig);
+
+        // 테스트 시작하기 클릭 시 알림창
+        function showAlert() {
+            swal({
+                title: "Tip!",
+                text: "아는 단어는 O를, 모르는 단어는 X를 선택하세요.",
+                icon: "info",
+                buttons: ["취소", "확인"],
+            }).then(function(value) {
+                if (value) {
+                    window.location.href = "test.html"; // "확인" 버튼을 클릭하면 test.html 페이지로 이동
+                } else {
+                    // "취소" 버튼을 클릭하면 아무 동작도 하지 않음
+                }
+            });
+        }
+    </script>
+</body>
+</html>
