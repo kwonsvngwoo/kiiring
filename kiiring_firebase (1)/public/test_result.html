@@ -23,8 +23,24 @@
             <!-- 상단바 -->
             <div class="navbar">
                 <a href="index.html"><img src="./image/kiiring_logo.png" alt="Logo"></a>
+                <div class="search-box">
+                    <input id="wordInput" onkeyup="enterkey()" type="text" placeholder="단어를 입력하세요.">
+                    <button type="button" onclick="submitForm()">
+                        <img src="./image/small_search.png" alt="검색"> 
+                    </button>
+                </div>
             </div>
-            <div class = "xwords_Display" id="xWordsDisplay"></div> 
+            <div class = "title_container">
+                <p>X단어 모음</p>
+            </div>
+            <div class = "xwords_Container">
+                <p>모르는 단어들로 흥미로운 이야기를 만들어 쉽게 암기하세요!</p>
+                <div class = "xwords_Display" id="xWordsDisplay">
+                </div> 
+                <div class = "makeImageContainer">
+                    <a href="" class="makeImageButton">이미지<br>생성하기</a>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -44,25 +60,40 @@
         };
 
         firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        function makeArray(data){
+            const dataArray = data.split(",");
+            dataArray.shift();
+            console.log(dataArray);
+            let integerArray = dataArray.map((num) => parseInt(num, 10));
+            console.log(integerArray);
+            integerArray.forEach((item) =>{
+                find(item);
+            });
+            
+        };
+
+        function find(word) {
+            database.ref('/').once('value', (snapshot) => {
+                const dataCount = snapshot.numChildren(); // 데이터 총 개수 확인
+                const dataArray = Object.values(snapshot.val()); // 스냅샷을 배열로 변환
+                const wordData = dataArray[word]; // 랜덤한 데이터 가져오기
+                displayxWordsData(wordData);
+            });
+        };
         
         function displayxWordsData(data) {
             const DataDisplay = document.getElementById('xWordsDisplay');
-
-            if (Array.isArray(data)) {
-                // 배열이라면 forEach로 각 요소를 출력
-                data.forEach(item => {
-                    DataDisplay.innerHTML += `<p>${item}</p>`;
-                });
-            } else {
-                // 배열이 아니라면 단일 데이터로 처리
-                DataDisplay.innerHTML += `<p>${data}</p>`;
-            }
-        }
+            DataDisplay.innerHTML += `
+            <p>${data['영어단어']}</p>
+            <p>[${data['단어 뜻']}]\n</p>`;
+        };
 
         window.onload = function() {
             const temp = location.href.split("?");
             const xWords = temp[1];
-            displayxWordsData(xWords)
+            makeArray(xWords);
         };
 
     </script>
